@@ -1,0 +1,10 @@
+src/
+mcp-server/
+test/
+.github/
+node_modules/
+tsconfig.json
+.gitignore
+AGENTS.md
+SKILL.md
+test-resume.txt

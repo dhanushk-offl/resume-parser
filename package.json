@@ -1,0 +1,51 @@
+{
+  "name": "resume-parser",
+  "version": "1.0.0",
+  "description": "An agent skill that deeply parses resumes, extracts structured data, and provides actionable insights to improve ATS compatibility and readability.",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "bin": {
+    "resume-parser": "bin/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/src/index.js",
+    "dev": "ts-node src/index.ts",
+    "mcp": "ts-node mcp-server/server.ts",
+    "lint": "eslint src/ --ext .ts",
+    "test": "node --test test/**/*.test.js || echo \"No tests found yet\""
+  },
+  "files": [
+    "dist/",
+    "bin/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "resume",
+    "parser",
+    "ATS",
+    "agent-skill",
+    "resume-parser",
+    "career"
+  ],
+  "author": "dhanush",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dhanush/resume-parser"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "pdf-parse": "^1.1.1",
+    "pdfjs-dist": "^4.0.379",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2"
+  }
+}
