@@ -39,7 +39,7 @@ Choose how you want to use Resume Parser:
 | **Agent Skill** | `npx skills add dhanushk-offl/resume-parser-skill` | AI agents (pi, Claude Code, Codex, Gemini CLI) |
 | **CLI** | `npm install -g resume-parser-ats` | Quick one-off resume analysis |
 | **Library** | `npm install resume-parser-ats` | Building apps, batch processing |
-| **MCP Server** | `npm install resume-parser-ats` | Claude Desktop, ChatGPT, Cursor |
+| **MCP Server** | `claude mcp add resume-parser -- npx -y resume-parser-ats --mcp` | Claude Code, Codex, Claude Desktop, Cursor |
 
 ---
 
@@ -199,6 +199,56 @@ import type {
 
 Use Resume Parser as a Model Context Protocol (MCP) server to give AI assistants direct access to the parsing tools.
 
+### Quick Install
+
+**One command to add to each app:**
+
+```bash
+# Claude Code
+claude mcp add resume-parser -- npx -y resume-parser-ats --mcp
+
+# OpenAI Codex
+codex mcp add resume-parser -- npx -y resume-parser-ats --mcp
+```
+
+That's it. Restart the app and the tools are available.
+
+---
+
+### Claude Code (CLI)
+
+```bash
+claude mcp add resume-parser -- npx -y resume-parser-ats --mcp
+```
+
+Add to a specific scope:
+
+```bash
+# User scope (available in all projects)
+claude mcp add --scope user resume-parser -- npx -y resume-parser-ats --mcp
+
+# Project scope (available in current project only)
+claude mcp add --scope project resume-parser -- npx -y resume-parser-ats --mcp
+```
+
+Remove with:
+
+```bash
+claude mcp remove resume-parser
+```
+
+### OpenAI Codex (CLI)
+
+```bash
+codex mcp add resume-parser -- npx -y resume-parser-ats --mcp
+```
+
+Remove with:
+
+```bash
+codex mcp remove resume-parser
+```
+
 ### Claude Desktop
 
 Add to your Claude Desktop config file:
@@ -221,21 +271,6 @@ Restart Claude Desktop. You can now ask Claude to parse and analyze resumes:
 
 ```
 "Can you analyze my resume for ATS compatibility? The file is at ~/Documents/my-resume.pdf"
-```
-
-### ChatGPT / Codex (OpenAI)
-
-Add to your OpenAI MCP configuration:
-
-```json
-{
-  "mcpServers": {
-    "resume-parser": {
-      "command": "npx",
-      "args": ["-y", "resume-parser-ats", "--mcp"]
-    }
-  }
-}
 ```
 
 ### Cursor
@@ -478,7 +513,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for:
 
 ## 📄 License
 
-MIT License — Copyright (c) 2025 **Dhanush Kandhan**. See [LICENSE](./LICENSE) for details.
+MIT License — Copyright (c) 2026 **Dhanush Kandhan**. See [LICENSE](./LICENSE) for details.
 
 ---
 

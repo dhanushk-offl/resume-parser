@@ -207,12 +207,34 @@ const result = parseResume({ filePath: "resume.pdf" });
 
 ### As an MCP Server
 
-Start the MCP server for use with Claude Desktop, ChatGPT, Cursor, and other MCP-compatible apps:
+Add to AI apps with one command:
+
+```bash
+# Claude Code
+claude mcp add resume-parser -- npx -y resume-parser-ats --mcp
+
+# OpenAI Codex
+codex mcp add resume-parser -- npx -y resume-parser-ats --mcp
+```
+
+Or start manually:
 
 ```bash
 resume-parser-ats --mcp
-# or
 npx resume-parser-ats --mcp
 ```
 
-See README for full MCP configuration instructions.
+For Claude Desktop, add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "resume-parser": {
+      "command": "npx",
+      "args": ["-y", "resume-parser-ats", "--mcp"]
+    }
+  }
+}
+```
+
+For Cursor, add to `~/.cursor/mcp.json` with the same config.
