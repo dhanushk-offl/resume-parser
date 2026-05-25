@@ -8,6 +8,7 @@
  *   Step 4: Extract resume attributes from sections via feature scoring
  */
 
+import fs from "fs";
 import type {
   TextItem,
   LineItem,
@@ -106,8 +107,9 @@ export async function extractTextItemsFromPDF(
     }
 
     return { items: textItems, warnings };
-  } catch (error: any) {
-    warnings.push(`Error reading PDF: ${error.message}`);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    warnings.push(`Error reading PDF: ${message}`);
     return { items: [], warnings };
   }
 }
@@ -149,16 +151,13 @@ export function extractTextItemsFromRawText(rawText: string): TextItem[] {
 
     // Determine bold and section-title flags
     let bold = false;
-    let treatAsSectionTitle = false;
 
     if (isKnownSection) {
       // Known section headers are always section titles
       bold = true;
-      treatAsSectionTitle = true;
     } else if (isAllCapsShort && !looksLikeName && !isFirstName) {
-      // Short ALL-CAPS that don't look like names → bold, treat as section title
+      // Short ALL-CAPS that don't look like names → bold, section title
       bold = true;
-      treatAsSectionTitle = true;
     } else if (isFirstName && looksLikeName) {
       // First line that looks like a name → bold, NOT a section title
       bold = true;
@@ -671,7 +670,6 @@ export function parseResume(input: ParseResumeInput): ParseResumeOutput {
     // For synchronous version we use the raw text approach;
     // in production this would be async with pdfjs-dist
     try {
-      const fs = require("fs");
       const content = fs.readFileSync(input.filePath, "utf-8");
       textItems = extractTextItemsFromRawText(content);
       stepsCompleted.push(1);

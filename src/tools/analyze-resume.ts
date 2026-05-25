@@ -99,7 +99,8 @@ const SCORING_WEIGHTS = {
   },
 };
 
-type WeightKey = keyof typeof SCORING_WEIGHTS.moderate;
+// Weight keys derived from SCORING_WEIGHTS structure
+// Used for iterating over weight categories
 
 // ---------------------------------------------------------------------------
 // Field analysis helpers
@@ -139,7 +140,7 @@ function analyzeField(
 // Format issue detection
 // ---------------------------------------------------------------------------
 
-function detectFormatIssues(resume: ParsedResume, fieldAnalyses: FieldAnalysis[]): FormatIssue[] {
+function detectFormatIssues(resume: ParsedResume, _fieldAnalyses: FieldAnalysis[]): FormatIssue[] {
   const issues: FormatIssue[] = [];
 
   // CRITICAL: Name or Email missing

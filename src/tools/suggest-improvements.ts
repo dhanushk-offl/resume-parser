@@ -166,7 +166,7 @@ function profileSuggestions(resume: ParsedResume, analysis: AnalyzeResumeOutput[
   return suggestions;
 }
 
-function educationSuggestions(resume: ParsedResume, focusAreas: string[]): Suggestion[] {
+function educationSuggestions(resume: ParsedResume, _focusAreas: string[]): Suggestion[] {
   const suggestions: Suggestion[] = [];
   let id = 100;
 
@@ -367,7 +367,6 @@ function structureSuggestions(resume: ParsedResume, analysis: AnalyzeResumeOutpu
 
   // Check for single-column layout
   if (resume.rawTextItems.length > 0) {
-    const uniqueYs = new Set(resume.rawTextItems.map((i) => Math.round(i.y)));
     const textItemCount = resume.rawTextItems.length;
     const lineCount = resume.lines.length;
 
