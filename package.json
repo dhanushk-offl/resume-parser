@@ -13,7 +13,7 @@
     "dev": "ts-node src/index.ts",
     "mcp": "ts-node mcp-server/server.ts",
     "lint": "eslint src/",
-    "test": "node --test test/**/*.test.js || echo \"No tests found yet\""
+    "test": "node --test test/evals/parse-resume.test.js test/evals/analyze-resume.test.js test/evals/suggest-improvements.test.js"
   },
   "files": [
     "dist/",
