@@ -41,22 +41,22 @@ npm run build
 
 ```bash
 # Parse a resume and output structured data
-npx resume-parser parse resume.pdf
+npx resume-parser-ats parse resume.pdf
 
 # Parse + analyze ATS compatibility
-npx resume-parser analyze resume.pdf
+npx resume-parser-ats analyze resume.pdf
 
 # Full pipeline: parse + analyze + actionable suggestions
-npx resume-parser insights resume.pdf
+npx resume-parser-ats insights resume.pdf
 
 # Parse from raw text
-npx resume-parser parse "John Doe\njohn@email.com\nSoftware Engineer"
+npx resume-parser-ats parse "John Doe\njohn@email.com\nSoftware Engineer"
 
 # Adjust ATS strictness
-npx resume-parser analyze resume.pdf --strictness strict
+npx resume-parser-ats analyze resume.pdf --strictness strict
 
 # Focus on specific areas
-npx resume-parser insights resume.pdf --focus ats,formatting --json
+npx resume-parser-ats insights resume.pdf --focus ats,formatting --json
 ```
 
 ### As a Library
@@ -145,7 +145,7 @@ Each attribute (Name, Email, Phone, etc.) has **feature sets** — matching func
 > *Before applying to jobs, run your resume through the parser to see what an ATS actually extracts.*
 
 ```bash
-npx resume-parser insights my-resume.pdf --strictness strict --json
+npx resume-parser-ats insights my-resume.pdf --strictness strict --json
 ```
 
 Identify critical issues like a missing email, unparseable name, or sections an ATS can't detect — and fix them *before* you apply.

@@ -1,11 +1,11 @@
 {
   "name": "resume-parser-ats",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "An agent skill that deeply parses resumes, extracts structured data, and provides actionable insights to improve ATS compatibility and readability.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "bin": {
-    "resume-parser": "bin/cli.js"
+    "resume-parser-ats": "bin/cli.js"
   },
   "scripts": {
     "build": "tsc",

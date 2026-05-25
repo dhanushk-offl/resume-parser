@@ -4,9 +4,9 @@
  * Resume Parser — CLI Entry Point
  *
  * Usage:
- *   resume-parser parse <file|text>          Parse a resume and output structured data
- *   resume-parser analyze <file|text>         Parse + analyze ATS compatibility
- *   resume-parser insights <file|text>       Full pipeline: parse + analyze + suggestions
+ *   resume-parser-ats parse <file|text>          Parse a resume and output structured data
+ *   resume-parser-ats analyze <file|text>         Parse + analyze ATS compatibility
+ *   resume-parser-ats insights <file|text>       Full pipeline: parse + analyze + suggestions
  */
 
 const path = require("path");
@@ -24,7 +24,7 @@ function printUsage() {
 Resume Parser CLI — Deep resume parsing with ATS insights
 
 Usage:
-  resume-parser <command> <input> [options]
+  resume-parser-ats <command> <input> [options]
 
 Commands:
   parse <file|text>       Parse a resume and output structured data
@@ -38,10 +38,10 @@ Options:
   --help                  Show this help message
 
 Examples:
-  resume-parser parse resume.pdf
-  resume-parser analyze resume.pdf --strictness strict
-  resume-parser insights resume.pdf --focus ats,formatting --json
-  resume-parser parse "John Doe\\njohn@email.com\\nSoftware Engineer"
+  resume-parser-ats parse resume.pdf
+  resume-parser-ats analyze resume.pdf --strictness strict
+  resume-parser-ats insights resume.pdf --focus ats,formatting --json
+  resume-parser-ats parse "John Doe\\njohn@email.com\\nSoftware Engineer"
 `);
 }
 
