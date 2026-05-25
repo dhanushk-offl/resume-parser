@@ -1,6 +1,6 @@
 {
-  "name": "resume-parser",
-  "version": "1.0.0",
+  "name": "@dhanushk-offl/resume-parser",
+  "version": "1.1.0",
   "description": "An agent skill that deeply parses resumes, extracts structured data, and provides actionable insights to improve ATS compatibility and readability.",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -33,7 +33,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dhanush/resume-parser"
+    "url": "git+https://github.com/dhanushk-offl/resume-parser-skill.git"
   },
   "publishConfig": {
     "access": "public"
