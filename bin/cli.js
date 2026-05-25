@@ -7,6 +7,7 @@
  *   resume-parser-ats parse <file|text>          Parse a resume and output structured data
  *   resume-parser-ats analyze <file|text>         Parse + analyze ATS compatibility
  *   resume-parser-ats insights <file|text>       Full pipeline: parse + analyze + suggestions
+ *   resume-parser-ats --mcp                     Start MCP server for Claude/ChatGPT/Cursor
  */
 
 const path = require("path");
@@ -35,6 +36,7 @@ Options:
   --strictness <level>    ATS strictness: lenient, moderate, strict (default: moderate)
   --focus <areas>         Focus areas: ats,content,formatting,structure (default: all)
   --json                  Output raw JSON instead of formatted report
+  --mcp                   Start MCP server (for Claude Desktop, ChatGPT, Cursor, etc.)
   --help                  Show this help message
 
 Examples:
@@ -42,11 +44,36 @@ Examples:
   resume-parser-ats analyze resume.pdf --strictness strict
   resume-parser-ats insights resume.pdf --focus ats,formatting --json
   resume-parser-ats parse "John Doe\\njohn@email.com\\nSoftware Engineer"
+
+MCP Server:
+  resume-parser-ats --mcp
+
+  Add to Claude Desktop config:
+  {
+    "mcpServers": {
+      "resume-parser": {
+        "command": "npx",
+        "args": ["-y", "resume-parser-ats", "--mcp"]
+      }
+    }
+  }
 `);
 }
 
 function main() {
   const args = process.argv.slice(2);
+
+  // Handle --mcp flag: start MCP server
+  if (args.includes("--mcp")) {
+    try {
+      require("../dist/mcp-server/server.js");
+    } catch (err) {
+      console.error("Error: MCP server not built. Run `npm run build` first.");
+      console.error(err.message);
+      process.exit(1);
+    }
+    return;
+  }
 
   if (args.length === 0 || args.includes("--help") || args.includes("-h")) {
     printUsage();

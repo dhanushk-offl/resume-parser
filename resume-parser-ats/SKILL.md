@@ -193,11 +193,26 @@ Always provide results in this structured format:
 
 ## Programmatic Access
 
-For batch processing or integration, install the npm package:
+### As an npm Library
 
 ```bash
 npm install resume-parser-ats
-npx resume-parser-ats parse resume.pdf
-npx resume-parser-ats analyze resume.pdf --strictness strict
-npx resume-parser-ats insights resume.pdf --focus ats,formatting --json
 ```
+
+```typescript
+import { parseResume, analyzeResume, suggestImprovements } from "resume-parser-ats";
+
+const result = parseResume({ filePath: "resume.pdf" });
+```
+
+### As an MCP Server
+
+Start the MCP server for use with Claude Desktop, ChatGPT, Cursor, and other MCP-compatible apps:
+
+```bash
+resume-parser-ats --mcp
+# or
+npx resume-parser-ats --mcp
+```
+
+See README for full MCP configuration instructions.
