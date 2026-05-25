@@ -1,10 +1,16 @@
 # AGENTS.md — Agent Configuration for Resume Parser Skill
 
 ## Skill Name
-resume-parser
+resume-parser-ats
 
 ## Description
 Deeply parses resume PDFs using the OpenResume 4-step algorithm, extracts structured information (Name, Email, Phone, Education, Work Experience, Skills, etc.), evaluates ATS compatibility, and provides actionable improvement suggestions.
+
+## Install
+
+```bash
+npx skills add dhanushk-offl/resume-parser-skill
+```
 
 ## Capabilities
 
@@ -40,7 +46,7 @@ Deeply parses resume PDFs using the OpenResume 4-step algorithm, extracts struct
   "input": {
     "filePath": "/path/to/resume.pdf",
     "rawText": "Optional: raw text if PDF not available",
-    "strictness": "moderate" // "lenient" | "moderate" | "strict"
+    "strictness": "moderate"
   }
 }
 ```
@@ -51,7 +57,7 @@ Deeply parses resume PDFs using the OpenResume 4-step algorithm, extracts struct
   "input": {
     "filePath": "/path/to/resume.pdf",
     "rawText": "Optional: raw text if PDF not available",
-    "focusAreas": ["ats", "content", "formatting", "structure"] // optional
+    "focusAreas": ["ats", "content", "formatting", "structure"]
   }
 }
 ```
@@ -65,7 +71,7 @@ All tools return a structured JSON response:
   "success": true,
   "data": { ... },
   "metadata": {
-    "parserVersion": "1.0.0",
+    "parserVersion": "1.1.1",
     "stepsCompleted": [1, 2, 3, 4],
     "warnings": []
   }

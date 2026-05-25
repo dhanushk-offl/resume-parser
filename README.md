@@ -1,4 +1,4 @@
-# 📄 Resume Parser
+# 📄 Resume Parser — Agent Skill
 
 <p align="center">
   <strong>Deep resume parsing • ATS compatibility scoring • Actionable improvement insights</strong>
@@ -10,18 +10,29 @@
 
 ---
 
-A powerful agent skill that deeply parses resumes using the **OpenResume 4-step algorithm**, extracts structured information (Name, Email, Phone, Education, Work Experience, Skills, Projects), evaluates ATS (Applicant Tracking System) compatibility, and provides prioritized, actionable suggestions to improve your resume.
+An **agent skill** that deeply parses resumes using the **OpenResume 4-step algorithm**, extracts structured information (Name, Email, Phone, Education, Work Experience, Skills, Projects), evaluates ATS (Applicant Tracking System) compatibility, and provides prioritized, actionable suggestions to improve your resume.
 
 ## ✨ Features
 
 - **🔍 Deep Parsing** — Extracts 10+ fields from raw text or PDF using a feature-scoring engine
 - **📊 ATS Scoring** — Grades your resume A+ through F with detailed per-field confidence ratings
 - **💡 Smart Suggestions** — Prioritized, categorized fixes (critical → low) with before/after examples
+- **🤖 Agent Skill** — Install via `npx skills add` and use directly in your agent
 - **🛠️ CLI & MCP Server** — Use interactively from the command line or as an MCP tool
 - **⚙️ Configurable Strictness** — Lenient, moderate, or strict ATS evaluation modes
 - **🔒 Zero Dependencies on Proprietary APIs** — Runs entirely locally with no external calls
 
 ## 📦 Installation
+
+### As an Agent Skill (recommended)
+
+```bash
+npx skills add dhanushk-offl/resume-parser-skill
+```
+
+After installing, the skill is automatically available to your agent. When the agent encounters a resume-related task, it will load the skill and use it.
+
+### Manual Setup
 
 ```bash
 # Clone the repo
@@ -37,26 +48,34 @@ npm run build
 
 ## 🚀 Usage
 
-### As a CLI Tool
+### As an Agent Skill
+
+Once installed via `npx skills add`, the agent will automatically use this skill when you:
+
+- Ask to parse, review, or analyze a resume
+- Ask "is my resume ATS-friendly?"
+- Ask for resume improvement suggestions
+- Upload or reference a resume PDF
+
+The agent can invoke three tools:
+
+| Tool | Description |
+|------|-------------|
+| `parse_resume` | Parse a resume PDF or raw text → structured data |
+| `analyze_resume` | Parse + compute ATS compatibility score with per-field confidence |
+| `suggest_improvements` | Parse + analyze + generate prioritized improvement suggestions |
+
+### From the CLI (after manual setup)
 
 ```bash
 # Parse a resume and output structured data
-npx resume-parser-ats parse resume.pdf
+node resume-parser-ats/scripts/parse.mjs resume.pdf
 
 # Parse + analyze ATS compatibility
-npx resume-parser-ats analyze resume.pdf
+node resume-parser-ats/scripts/analyze.mjs resume.pdf
 
 # Full pipeline: parse + analyze + actionable suggestions
-npx resume-parser-ats insights resume.pdf
-
-# Parse from raw text
-npx resume-parser-ats parse "John Doe\njohn@email.com\nSoftware Engineer"
-
-# Adjust ATS strictness
-npx resume-parser-ats analyze resume.pdf --strictness strict
-
-# Focus on specific areas
-npx resume-parser-ats insights resume.pdf --focus ats,formatting --json
+node resume-parser-ats/scripts/insights.mjs resume.pdf --strictness strict --focus ats,formatting
 ```
 
 ### As a Library
@@ -145,7 +164,7 @@ Each attribute (Name, Email, Phone, etc.) has **feature sets** — matching func
 > *Before applying to jobs, run your resume through the parser to see what an ATS actually extracts.*
 
 ```bash
-npx resume-parser-ats insights my-resume.pdf --strictness strict --json
+node resume-parser-ats/scripts/insights.mjs my-resume.pdf --strictness strict
 ```
 
 Identify critical issues like a missing email, unparseable name, or sections an ATS can't detect — and fix them *before* you apply.
@@ -179,10 +198,6 @@ import { fullPipeline } from "resume-parser-ats";
 
 const result = fullPipeline({ rawText: resumeText, strictness: "strict" });
 
-// result.parsed — structured data
-// result.analyzed — ATS score + field analysis
-// result.suggestions — prioritized actions
-
 // Feed to an LLM for natural-language coaching
 const prompt = `You are a resume coach. Here is the analysis:
 ${JSON.stringify(result.analyzed.data)}
@@ -206,44 +221,36 @@ Suggest improvements in a friendly, encouraging tone.`;
 - Flag common issues (missing dates, non-standard section headers)
 - Provide standardized improvement templates
 
-### 6. 🔄 Resume Migration Tool
-
-> *Convert resumes from one format to structured JSON for database ingestion.*
-
-```typescript
-import { parseResume } from "resume-parser-ats";
-
-const result = parseResume({ filePath: "legacy-resume.pdf" });
-// result.data is a clean, typed JSON object ready for your database
-```
-
 ## 🏗️ Architecture
 
 ```
-resume-parser/
-├── package.json              # Project metadata & scripts
-├── README.md                 # This file
-├── LICENSE                   # MIT License — Dhanush Kandhan
-├── AGENTS.md                 # Agent-facing configuration
-├── SKILL.md                  # Skill definition for agent consumption
-├── src/
-│   ├── index.ts              # Main entry point + fullPipeline()
+resume-parser-skill/
+├── resume-parser-ats/           # Agent skill directory
+│   ├── SKILL.md                # Skill manifest & instructions
+│   ├── scripts/                # Executable scripts for agent use
+│   │   ├── parse.mjs           # Parse a resume → JSON
+│   │   ├── analyze.mjs         # Parse + ATS scoring → JSON
+│   │   └── insights.mjs        # Full pipeline → JSON
+│   └── references/             # Detailed docs loaded on-demand
+│       └── algorithm.md        # Full algorithm specification
+├── src/                        # TypeScript source
+│   ├── index.ts                # Main entry point + fullPipeline()
 │   ├── tools/
-│   │   ├── parse-resume.ts           # Step 1-4 parsing engine
-│   │   ├── analyze-resume.ts         # ATS scoring & analysis
-│   │   └── suggest-improvements.ts   # Fix suggestions generator
+│   │   ├── parse-resume.ts
+│   │   ├── analyze-resume.ts
+│   │   └── suggest-improvements.ts
 │   └── prompts/
-│       ├── parser-prompt.ts          # Prompt templates for parsing
-│       └── insights-prompt.ts        # Prompt templates for insights
-├── mcp-server/
-│   └── server.ts             # MCP server implementation
+│       ├── parser-prompt.ts
+│       └── insights-prompt.ts
 ├── bin/
-│   └── cli.js                # CLI entry point
-└── test/
-    └── evals/                # Evaluation test suites
-        ├── parse-resume.test.js
-        ├── analyze-resume.test.js
-        └── suggest-improvements.test.js
+│   └── cli.js                  # CLI entry point
+├── mcp-server/
+│   └── server.ts               # MCP server implementation
+├── test/
+│   └── evals/                  # Evaluation test suites
+├── AGENTS.md                   # Agent configuration
+├── package.json
+└── README.md
 ```
 
 ## 🧪 Testing
@@ -251,12 +258,9 @@ resume-parser/
 ```bash
 # Run all tests
 npm test
-
-# Run evaluation suites
-node --test test/evals/parse-resume.test.js
-node --test test/evals/analyze-resume.test.js
-node --test test/evals/suggest-improvements.test.js
 ```
+
+86 tests covering parsing, analysis, and suggestion generation across all strictness levels.
 
 ## 🤝 Contributing
 
@@ -268,19 +272,10 @@ node --test test/evals/suggest-improvements.test.js
 
 ## ☁️ CI/CD
 
-This project uses GitHub Actions for continuous integration and npm publishing:
-
 | Workflow | Trigger | What it does |
 |----------|---------|-------------|
 | **Build & Test** | Push/PR to `master` | Lint, build, and test across Node 18/20/22 |
-| **Publish to npm** | Tag push `v*` (e.g. `v1.0.0`) | Builds and publishes to npmjs with provenance |
-
-To publish a new version:
-
-```bash
-npm version patch   # or minor, major
-git push --follow-tags
-```
+| **Publish to npm** | Tag push `v*` | Builds and publishes to npmjs with provenance |
 
 ## 📄 License
 

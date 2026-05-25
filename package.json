@@ -18,6 +18,7 @@
   "files": [
     "dist/",
     "bin/",
+    "resume-parser-ats/",
     "README.md",
     "LICENSE"
   ],
@@ -27,7 +28,9 @@
     "ATS",
     "agent-skill",
     "resume-parser",
-    "career"
+    "career",
+    "skills",
+    "npx-skills"
   ],
   "author": "dhanush",
   "license": "MIT",
