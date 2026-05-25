@@ -62,7 +62,7 @@ npx resume-parser insights resume.pdf --focus ats,formatting --json
 ### As a Library
 
 ```typescript
-import { parseResume, analyzeResume, suggestImprovements } from "@dhanushk-offl/resume-parser";
+import { parseResume, analyzeResume, suggestImprovements } from "resume-parser-ats";
 
 // Step 1: Parse
 const parsed = parseResume({ rawText: "..." });
@@ -155,7 +155,7 @@ Identify critical issues like a missing email, unparseable name, or sections an 
 > *Programmatically parse and score hundreds of resumes to rank candidates by ATS readability.*
 
 ```typescript
-import { parseResume, analyzeResume } from "@dhanushk-offl/resume-parser";
+import { parseResume, analyzeResume } from "resume-parser-ats";
 import fs from "fs";
 
 const files = fs.readdirSync("resumes/");
@@ -175,7 +175,7 @@ for (const file of files) {
 > *Embed the skill into an AI agent that reviews resumes and gives personalized coaching.*
 
 ```typescript
-import { fullPipeline } from "@dhanushk-offl/resume-parser";
+import { fullPipeline } from "resume-parser-ats";
 
 const result = fullPipeline({ rawText: resumeText, strictness: "strict" });
 
@@ -211,7 +211,7 @@ Suggest improvements in a friendly, encouraging tone.`;
 > *Convert resumes from one format to structured JSON for database ingestion.*
 
 ```typescript
-import { parseResume } from "@dhanushk-offl/resume-parser";
+import { parseResume } from "resume-parser-ats";
 
 const result = parseResume({ filePath: "legacy-resume.pdf" });
 // result.data is a clean, typed JSON object ready for your database
