@@ -9,7 +9,7 @@ An agent skill, CLI tool, npm library, and MCP server that deeply parses resumes
 Made with ❤️ by **Dhanush Kandhan**
 
 [![npm version](https://img.shields.io/npm/v/resume-parser-ats.svg)](https://www.npmjs.com/package/resume-parser-ats)
-[![CI](https://github.com/dhanushk-offl/resume-parser-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/dhanushk-offl/resume-parser-skill/actions/workflows/ci.yml)
+[![CI](https://github.com/dhanushk-offl/resume-parser/actions/workflows/ci.yml/badge.svg)](https://github.com/dhanushk-offl/resume-parser/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 </div>
@@ -36,7 +36,7 @@ Choose how you want to use Resume Parser:
 
 | Method | Install | Best for |
 |--------|---------|----------|
-| **Agent Skill** | `npx skills add dhanushk-offl/resume-parser-skill` | AI agents (pi, Claude Code, Codex, Gemini CLI) |
+| **Agent Skill** | `npx skills add dhanushk-offl/resume-parser` | AI agents (pi, Claude Code, Codex, Gemini CLI) |
 | **CLI** | `npm install -g resume-parser-ats` | Quick one-off resume analysis |
 | **Library** | `npm install resume-parser-ats` | Building apps, batch processing |
 | **MCP Server** | `claude mcp add resume-parser -- npx -y resume-parser-ats --mcp` | Claude Code, Codex, Claude Desktop, Cursor |
@@ -48,7 +48,7 @@ Choose how you want to use Resume Parser:
 Install as an agent skill for automatic activation in AI coding assistants:
 
 ```bash
-npx skills add dhanushk-offl/resume-parser-skill
+npx skills add dhanushk-offl/resume-parser
 ```
 
 Once installed, the skill activates automatically when you:
@@ -439,7 +439,7 @@ Batch-parse resumes, flag common issues, generate improvement templates.
 ## 🏗️ Architecture
 
 ```
-resume-parser-skill/
+resume-parser/
 ├── resume-parser-ats/           # Agent skill (npx skills add)
 │   ├── SKILL.md                # Skill manifest & instructions
 │   └── references/
@@ -521,6 +521,6 @@ MIT License — Copyright (c) 2026 **Dhanush Kandhan**. See [LICENSE](./LICENSE)
 
 Made with ❤️ by **Dhanush Kandhan**
 
-If this project helped you, consider giving it a ⭐ on [GitHub](https://github.com/dhanushk-offl/resume-parser-skill)!
+If this project helped you, consider giving it a ⭐ on [GitHub](https://github.com/dhanushk-offl/resume-parser)!
 
 </div>

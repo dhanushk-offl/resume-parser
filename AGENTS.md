@@ -9,7 +9,7 @@ Deeply parses resume PDFs using the OpenResume 4-step algorithm, extracts struct
 ## Install
 
 ```bash
-npx skills add dhanushk-offl/resume-parser-skill
+npx skills add dhanushk-offl/resume-parser
 ```
 
 ## Capabilities

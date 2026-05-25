@@ -37,7 +37,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dhanushk-offl/resume-parser-skill.git"
+    "url": "git+https://github.com/dhanushk-offl/resume-parser.git"
   },
   "publishConfig": {
     "access": "public"

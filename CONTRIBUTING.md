@@ -27,8 +27,8 @@ Be respectful, constructive, and inclusive. We're all here to make resume parsin
 1. **Fork** the repository on GitHub
 2. **Clone** your fork locally:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/resume-parser-skill.git
-   cd resume-parser-skill
+   git clone https://github.com/YOUR_USERNAME/resume-parser.git
+   cd resume-parser
    ```
 3. **Install** dependencies:
    ```bash
@@ -76,7 +76,7 @@ Software Engineer"
 ## Project Structure
 
 ```
-resume-parser-skill/
+resume-parser/
 ├── resume-parser-ats/         # Agent skill directory (npx skills add)
 │   ├── SKILL.md               # Skill manifest & agent instructions
 │   └── references/
@@ -237,7 +237,7 @@ Prefixes: `feat:`, `fix:`, `docs:`, `test:`, `refactor:`, `perf:`, `chore:`, `ci
 
 ## Reporting Bugs
 
-Open a [GitHub Issue](https://github.com/dhanushk-offl/resume-parser-skill/issues/new) with:
+Open a [GitHub Issue](https://github.com/dhanushk-offl/resume-parser/issues/new) with:
 
 1. **What you did** — exact command or input
 2. **What happened** — actual output or error
@@ -246,7 +246,7 @@ Open a [GitHub Issue](https://github.com/dhanushk-offl/resume-parser-skill/issue
 
 ## Feature Requests
 
-Open a [GitHub Issue](https://github.com/dhanushk-offl/resume-parser-skill/issues/new) with:
+Open a [GitHub Issue](https://github.com/dhanushk-offl/resume-parser/issues/new) with:
 
 1. **Use case** — what problem does this solve?
 2. **Proposed solution** — how should it work?
