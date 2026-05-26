@@ -466,48 +466,40 @@ resume-parser/
 
 ---
 
-## 🧪 Testing
+## 🗺️ Future Roadmap
 
-```bash
-# Run all 86 tests
-npm test
+We have big plans. Here's what's coming — and where we need **your help**:
 
-# Run a specific suite
-node --test test/evals/parse-resume.test.mjs
-node --test test/evals/analyze-resume.test.mjs
-node --test test/evals/suggest-improvements.test.mjs
+### 🛠️ CLI Resume Builder
+A CLI-based tool for creating resumes in multiple formats (PDF, HTML, Markdown, LaTeX) — with templates, theming, and interactive prompts. No more fighting with Word formatting.
 
-# Filter by test name
-node --test test/evals/parse-resume.test.mjs --test-name-pattern "Step 1"
-```
+### 📄 Terminal-Native PDF Parsing
+Improved parsing of various PDF encodings directly in the terminal — resolving canvas rendering issues, CID font mapping, and other common ATS-breaking PDF problems that current parsers silently fail on.
 
----
+### 🤖 Agent-Driven Parsing Pipeline
+An agent-based orchestration layer that intelligently routes different resume formats and encodings through the optimal parsing path, with fallback strategies and self-healing extraction.
 
-## ☁️ CI/CD
+### 🎯 Dynamic Skill Updates from JDs
+Automatically adjust parsing weights, keyword extraction, and skill identification based on a target Job Description — so the parser focuses on what matters for *that* role.
 
-| Workflow | Trigger | What it does |
-|----------|---------|-------------|
-| **Build & Test** | Push/PR to `master` | Lint, build, and test across Node 18, 20, 22 |
-| **Publish to npm** | Tag push `v*` | Builds and publishes to npmjs with provenance |
+### ⚙️ OpenResume-Grade Parsing Algorithm
+Continuing to refine our implementation toward (and beyond) the full OpenResume parsing spec — including bullet-point extraction, date-range normalization, multi-column layout detection, and cross-section reference resolution.
 
-To publish a new version:
-
-```bash
-npm version patch   # or minor, major
-git push --follow-tags
-```
+> **We're actively looking for contributors!** If any of these areas excite you — whether it's PDF internals, parsing algorithms, CLI design, or agent orchestration — check out [CONTRIBUTING.md](./CONTRIBUTING.md) and open an issue. Every contribution matters.
 
 ---
 
 ## 🤝 Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for:
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for the full guide:
 
-- Development setup
-- Project structure guide
-- Code style and testing conventions
+- Development setup & prerequisites
+- Project structure
+- Code style & testing conventions
 - Commit message format
 - Pull request checklist
+
+Found a bug or have an idea? [Open an issue](https://github.com/dhanushk-offl/resume-parser/issues/new/choose)!
 
 ---
 

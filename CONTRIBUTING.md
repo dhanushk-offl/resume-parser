@@ -237,7 +237,7 @@ Prefixes: `feat:`, `fix:`, `docs:`, `test:`, `refactor:`, `perf:`, `chore:`, `ci
 
 ## Reporting Bugs
 
-Open a [GitHub Issue](https://github.com/dhanushk-offl/resume-parser/issues/new) with:
+Open a [Bug Report](https://github.com/dhanushk-offl/resume-parser/issues/new?template=bug_report.md) using the issue template. Please include:
 
 1. **What you did** — exact command or input
 2. **What happened** — actual output or error
@@ -246,7 +246,7 @@ Open a [GitHub Issue](https://github.com/dhanushk-offl/resume-parser/issues/new)
 
 ## Feature Requests
 
-Open a [GitHub Issue](https://github.com/dhanushk-offl/resume-parser/issues/new) with:
+Open a [Feature Request](https://github.com/dhanushk-offl/resume-parser/issues/new?template=feature_request.md) using the issue template. Please include:
 
 1. **Use case** — what problem does this solve?
 2. **Proposed solution** — how should it work?
