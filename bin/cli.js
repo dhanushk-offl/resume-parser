@@ -12,7 +12,7 @@
 
 const path = require("path");
 const fs = require("fs");
-const { parseResume } = require("../dist/src/tools/parse-resume");
+const { parseResumeAsync } = require("../dist/src/tools/parse-resume");
 const { analyzeResume } = require("../dist/src/tools/analyze-resume");
 const { suggestImprovements } = require("../dist/src/tools/suggest-improvements");
 
@@ -60,7 +60,7 @@ MCP Server:
 `);
 }
 
-function main() {
+async function main() {
   const args = process.argv.slice(2);
 
   // Handle --mcp flag: start MCP server
@@ -113,7 +113,7 @@ function main() {
   // Execute command
   switch (command) {
     case "parse": {
-      const result = parseResume({ filePath, rawText });
+      const result = await parseResumeAsync({ filePath, rawText });
       if (jsonOutput) {
         console.log(JSON.stringify(result, null, 2));
       } else {
@@ -123,7 +123,7 @@ function main() {
     }
 
     case "analyze": {
-      const parsed = parseResume({ filePath, rawText });
+      const parsed = await parseResumeAsync({ filePath, rawText });
       const analyzed = analyzeResume({
         filePath,
         rawText,
@@ -139,7 +139,7 @@ function main() {
     }
 
     case "insights": {
-      const parsed = parseResume({ filePath, rawText });
+      const parsed = await parseResumeAsync({ filePath, rawText });
       const analyzed = analyzeResume({
         filePath,
         rawText,
@@ -392,4 +392,7 @@ function printInsightsResult(result) {
 }
 
 // Run
-main();
+main().catch((err) => {
+  console.error("Error: " + (err instanceof Error ? err.message : String(err)));
+  process.exit(1);
+});

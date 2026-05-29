@@ -9,6 +9,7 @@
  */
 
 import fs from "fs";
+import path from "path";
 import type {
   TextItem,
   LineItem,
@@ -42,6 +43,8 @@ export interface ParseResumeOutput {
   };
 }
 
+type PdfParse = (buffer: Buffer) => Promise<{ text?: string; numpages?: number }>;
+
 // ---------------------------------------------------------------------------
 // Step 1: Read text items from PDF
 // ---------------------------------------------------------------------------
@@ -59,52 +62,18 @@ export async function extractTextItemsFromPDF(
   const warnings: string[] = [];
 
   try {
-    // In production: use pdfjs-dist to read the PDF and extract text items
-    // with (x1, x2, y, bold, newLine) metadata.
-    //
-    // const pdfjsLib = require("pdfjs-dist/legacy/build/pdf.js");
-    // const doc = await pdfjsLib.getDocument(filePath).promise;
-    // ... iterate pages, get textContent, map to TextItem[]
-    //
-    // For now we fall back to a simplified extraction:
-
-    const fs = await import("fs");
     const pdfBuffer = fs.readFileSync(filePath);
+    const pdfParseModule = await import("pdf-parse");
+    const pdfParse = (pdfParseModule.default ?? pdfParseModule) as PdfParse;
+    const parsed = await pdfParse(pdfBuffer);
+    const text = parsed.text?.trim() ?? "";
 
-    // Attempt to extract text from the PDF buffer using a simple approach.
-    // The full implementation should use pdfjs-dist for accurate positioning.
-    const text = pdfBuffer.toString("latin1");
-
-    // Extract readable text portions (simplified heuristic)
-    const textItems: TextItem[] = [];
-    const lines = text
-      .split(/[\r\n]+/)
-      .filter((l) => l.trim().length > 0);
-
-    let y = 800;
-    for (const line of lines) {
-      const cleanLine = line.replace(/[^\x20-\x7E]/g, "").trim();
-      if (cleanLine.length === 0) continue;
-
-      // Determine if line is likely a section header
-      const isBold = /^[A-Z\s/&]+$/.test(cleanLine) && cleanLine.length < 40;
-      const isSectionTitle = isBold && cleanLine.length > 2;
-
-      textItems.push({
-        text: cleanLine,
-        x1: 36,
-        x2: 36 + cleanLine.length * 5,
-        y: y,
-        bold: isSectionTitle,
-        newLine: true,
-      });
-
-      y -= 14;
+    if (text.length === 0) {
+      warnings.push("Could not extract text from the PDF. The file may be image-based, scanned, or encrypted.");
+      return { items: [], warnings };
     }
 
-    if (textItems.length === 0) {
-      warnings.push("Could not extract any text items from the PDF. The file may be image-based or corrupted.");
-    }
+    const textItems = extractTextItemsFromRawText(text);
 
     return { items: textItems, warnings };
   } catch (error: unknown) {
@@ -112,6 +81,27 @@ export async function extractTextItemsFromPDF(
     warnings.push(`Error reading PDF: ${message}`);
     return { items: [], warnings };
   }
+}
+
+function isPDFPath(filePath: string): boolean {
+  return path.extname(filePath).toLowerCase() === ".pdf";
+}
+
+function emptyParseResult(warnings: string[], stepsCompleted: number[] = []): ParseResumeOutput {
+  return {
+    success: false,
+    data: {
+      profile: { name: null, email: null, phone: null, location: null, url: null, summary: null },
+      education: [],
+      experience: [],
+      skills: [],
+      projects: [],
+      sections: [],
+      rawTextItems: [],
+      lines: [],
+    },
+    metadata: { parserVersion: "1.0.0", stepsCompleted, warnings },
+  };
 }
 
 /**
@@ -667,6 +657,11 @@ export function parseResume(input: ParseResumeInput): ParseResumeOutput {
     textItems = extractTextItemsFromRawText(input.rawText);
     stepsCompleted.push(1);
   } else if (input.filePath) {
+    if (isPDFPath(input.filePath)) {
+      warnings.push("PDF parsing requires parseResumeAsync so the PDF can be decoded before parsing.");
+      return emptyParseResult(warnings);
+    }
+
     // For synchronous version we use the raw text approach;
     // in production this would be async with pdfjs-dist
     try {
@@ -704,6 +699,73 @@ export function parseResume(input: ParseResumeInput): ParseResumeOutput {
   stepsCompleted.push(3);
 
   // Step 4: Extract resume attributes from sections
+  const profile = extractProfile(sections);
+  const education = extractEducation(sections);
+  const experience = extractExperience(sections);
+  const skills = extractSkills(sections);
+  const projects = extractProjects(sections);
+  stepsCompleted.push(4);
+
+  const parsedResume: ParsedResume = {
+    profile,
+    education,
+    experience,
+    skills,
+    projects,
+    sections,
+    rawTextItems: textItems,
+    lines,
+  };
+
+  return {
+    success: true,
+    data: parsedResume,
+    metadata: { parserVersion: "1.0.0", stepsCompleted, warnings },
+  };
+}
+
+export async function parseResumeAsync(input: ParseResumeInput): Promise<ParseResumeOutput> {
+  const warnings: string[] = [];
+  const stepsCompleted: number[] = [];
+
+  let textItems: TextItem[];
+
+  if (input.rawText) {
+    textItems = extractTextItemsFromRawText(input.rawText);
+    stepsCompleted.push(1);
+  } else if (input.filePath) {
+    if (isPDFPath(input.filePath)) {
+      const extracted = await extractTextItemsFromPDF(input.filePath);
+      warnings.push(...extracted.warnings);
+      textItems = extracted.items;
+      if (textItems.length > 0) {
+        stepsCompleted.push(1);
+      }
+    } else {
+      try {
+        const content = fs.readFileSync(input.filePath, "utf-8");
+        textItems = extractTextItemsFromRawText(content);
+        stepsCompleted.push(1);
+      } catch {
+        warnings.push(`Could not read file: ${input.filePath}`);
+        textItems = [];
+      }
+    }
+  } else {
+    warnings.push("No input provided. Please provide either filePath or rawText.");
+    return emptyParseResult(warnings);
+  }
+
+  if (textItems.length === 0) {
+    return emptyParseResult(warnings, stepsCompleted);
+  }
+
+  const lines = groupTextItemsIntoLines(textItems);
+  stepsCompleted.push(2);
+
+  const sections = groupLinesIntoSections(lines);
+  stepsCompleted.push(3);
+
   const profile = extractProfile(sections);
   const education = extractEducation(sections);
   const experience = extractExperience(sections);

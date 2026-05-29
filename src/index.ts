@@ -8,11 +8,11 @@
  *   Step 4: Extract resume attributes from sections
  */
 
-import { parseResume, ParseResumeInput, ParseResumeOutput } from "./tools/parse-resume";
+import { parseResume, parseResumeAsync, ParseResumeInput, ParseResumeOutput } from "./tools/parse-resume";
 import { analyzeResume, AnalyzeResumeInput, AnalyzeResumeOutput } from "./tools/analyze-resume";
 import { suggestImprovements, SuggestImprovementsInput, SuggestImprovementsOutput } from "./tools/suggest-improvements";
 
-export { parseResume, analyzeResume, suggestImprovements };
+export { parseResume, parseResumeAsync, analyzeResume, suggestImprovements };
 export type { ParseResumeInput, ParseResumeOutput, AnalyzeResumeInput, AnalyzeResumeOutput, SuggestImprovementsInput, SuggestImprovementsOutput };
 
 // ---------------------------------------------------------------------------

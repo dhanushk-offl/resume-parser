@@ -15,7 +15,7 @@
  * The server communicates via stdio using the MCP protocol.
  */
 
-import { parseResume } from "../src/tools/parse-resume";
+import { parseResumeAsync } from "../src/tools/parse-resume";
 import { analyzeResume } from "../src/tools/analyze-resume";
 import { suggestImprovements } from "../src/tools/suggest-improvements";
 import type { ParsedResume } from "../src/index";
@@ -59,7 +59,7 @@ Returns structured resume data including profile, education, experience, skills,
       },
     },
     handler: async (args) => {
-      const result = parseResume({
+      const result = await parseResumeAsync({
         filePath: args.filePath,
         rawText: args.rawText,
       });
@@ -95,7 +95,7 @@ Returns:
     },
     handler: async (args) => {
       // First parse
-      const parsed = parseResume({
+      const parsed = await parseResumeAsync({
         filePath: args.filePath,
         rawText: args.rawText,
       });
@@ -144,7 +144,7 @@ Returns:
     },
     handler: async (args) => {
       // Full pipeline
-      const parsed = parseResume({
+      const parsed = await parseResumeAsync({
         filePath: args.filePath,
         rawText: args.rawText,
       });
